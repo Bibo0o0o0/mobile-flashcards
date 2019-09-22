@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native'
 import {white, black, gray, green, red} from '../utils/color'
+import {clearLocalNotification, setLocalNotification} from '../utils/api'
 class StartQuiz extends Component {
     state = {
         questionNumber: 0,
@@ -29,12 +30,18 @@ class StartQuiz extends Component {
         }
     }
     restart = () => {
+        clearLocalNotification().then(setLocalNotification)
         this.setState({questionNumber: 0, viewAnswer: false, correctAnswers: 0, incorrectAnswers: 0})
+    }
+    goBack = () => {
+        clearLocalNotification().then(setLocalNotification)
+        this.props.navigation.goBack()
     }
     render() {
         const questions = [...this.props.navigation.state.params]
+        const {questionNumber, correctAnswers} = this.state
         if (questions.length) {
-            if (questions.length <= this.state.questionNumber) {
+            if (questions.length <= questionNumber) {
                 return (
                     <View style={styles.container}>
                         <Text
@@ -42,14 +49,14 @@ class StartQuiz extends Component {
                             fontSize: 20,
                             textAlign: 'center',
                             fontWeight: 'bold'
-                        }}>you scored {this.state.correctAnswers}
+                        }}>you scored {correctAnswers}
                             out of {questions.length}</Text>
                         <TouchableOpacity style={styles.buttonColorView} onPress={this.restart}>
                             <Text style={styles.colorWhite}>Restart Quiz</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={styles.buttonColorView}
-                            onPress={() => this.props.navigation.goBack()}>
+                            onPress={this.goBack}>
                             <Text style={styles.colorWhite}>Go Back</Text>
                         </TouchableOpacity>
                     </View>

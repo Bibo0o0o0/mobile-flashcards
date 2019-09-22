@@ -1,7 +1,8 @@
 import React, {Component} from 'react'
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native'
-import {getDeck, clearLocalNotification, setLocalNotification} from '../utils/api'
+import {getDeck} from '../utils/api'
 import {white, black , gray} from '../utils/color'
+import DeckViewDetails from './deckViewDetails'
 class DeckView extends Component {
     state = {
         deck: {
@@ -9,27 +10,17 @@ class DeckView extends Component {
         }
     }
     addCard = () => {
-        this
-            .props
-            .navigation
-            .navigate('AddCard', {
+        this.props.navigation.navigate('AddCard', {
                 ...this.props.navigation.state.params.deck
             })
     }
     startQuiz = () => {
-        clearLocalNotification().then(setLocalNotification)
-        this
-            .props
-            .navigation
-            .navigate('StartQuiz', [...this.props.navigation.state.params.deck.questions])
+        this.props.navigation.navigate('StartQuiz', [...this.state.deck.questions])
     }
     componentDidMount() {
-        this.focusListener = this
-            .props
-            .navigation
-            .addListener('didFocus', () => {
-                this.getDeck()
-            })
+        this.focusListener = this.props.navigation.addListener('didFocus', () => {
+            this.getDeck()
+        })
     }
     getDeck = async() => {
         let deck = await getDeck(this.props.navigation.state.params.deck.key)
@@ -39,8 +30,7 @@ class DeckView extends Component {
         return (
             <View style={styles.container}>
                 <View style={styles.center}>
-                    <Text style={styles.largeSize}>{this.state.deck.title}</Text>
-                    <Text style={styles.colorGray}>{this.state.deck.questions.length} cards</Text>
+                    <DeckViewDetails textStyleOne={styles.largeSize} textStyleTwo={styles.colorGray} title={this.state.deck.title} questions={this.state.deck.questions} />
                 </View>
                 <View>
                     <TouchableOpacity style={styles.buttonColorAdd} onPress={this.addCard}>

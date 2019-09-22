@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native'
 import {white} from '../utils/color'
+import DeckViewDetails from './deckViewDetails'
 class DeckFolder extends Component {
     changeView = () => {
         this
@@ -13,25 +14,10 @@ class DeckFolder extends Component {
             })
     }
     render() {
+        // console.log(styles.textOne)
         return (
             <TouchableOpacity style={styles.container} onPress={this.changeView}>
-                <Text
-                    style={{
-                    textAlign: 'center',
-                    color: '#000',
-                    padding: 10,
-                    fontWeight: 'bold',
-                    fontSize: 20
-                }}>{this.props.deck.title}</Text>
-                <Text
-                    style={{
-                    textAlign: 'center',
-                    color: '#ccc',
-                    padding: 10,
-                    fontWeight: '400',
-                    fontSize: 20
-                }}>{this.props.deck.questions.length}
-                    cards</Text>
+                <DeckViewDetails textStyleOne={styles.textOne} textStyleTwo={styles.textTwo} title={this.props.deck.title} questions={this.props.deck.questions} />
             </TouchableOpacity>
         )
     }
@@ -68,8 +54,21 @@ const styles = StyleSheet.create({
     center: {
         flex: 1,
         alignItems: "center"
+    },
+    textOne:{
+        textAlign: 'center',
+        color: '#000',
+        padding: 10,
+        fontWeight: 'bold',
+        fontSize: 20
+    },
+    textTwo: {
+        textAlign: 'center',
+        color: '#ccc',
+        padding: 10,
+        fontWeight: '400',
+        fontSize: 20
     }
-
 })
 
 export default DeckFolder

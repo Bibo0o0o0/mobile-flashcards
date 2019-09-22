@@ -1,12 +1,5 @@
 import React, {Component} from 'react'
-import {
-    StyleSheet,
-    Text,
-    View,
-    TouchableOpacity,
-    TextInput,
-    Alert
-} from 'react-native'
+import {StyleSheet,Text,View,TouchableOpacity,TextInput,Alert, KeyboardAvoidingView} from 'react-native'
 import {addCardToDeck} from '../utils/api'
 import {nowTimeToString} from '../utils/helpers'
 import {white, black, gray} from '../utils/color'
@@ -48,7 +41,7 @@ class AddCard extends Component {
     }
     render() {
         return (
-            <View style={styles.container}>
+            <KeyboardAvoidingView style={styles.container}>
                 <View style={styles.center}>
                     <TextInput
                         style={styles.buttonColorAdd}
@@ -66,7 +59,7 @@ class AddCard extends Component {
                         <Text style={styles.colorWhite}>Submit</Text>
                     </TouchableOpacity>
                 </View>
-            </View>
+            </KeyboardAvoidingView>
         )
     }
 }
